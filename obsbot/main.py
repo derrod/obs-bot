@@ -75,22 +75,22 @@ class OBSBot(commands.Bot):
 
         await self.change_presence(activity=activity)
 
-    def is_admin(self, user: disnake.Member):
+    def is_admin(self, user: disnake.User):
         if user.id in self.admins:
             return True
         return False
 
-    def is_supporter(self, user: disnake.Member):
+    def is_supporter(self, user: disnake.User):
         if self.is_admin(user):
             return True
-        elif self.supporter_role and user.get_role(self.supporter_role.id) is not None:
+        elif isinstance(user, disnake.Member) and self.supporter_role and user.get_role(self.supporter_role.id) is not None:
             return True
         return False
 
-    def is_contributor(self, user: disnake.Member):
+    def is_contributor(self, user: disnake.User):
         if user.id in self.admins:
             return True
-        elif self.contrib_role and user.get_role(self.contrib_role.id) is not None:
+        elif isinstance(user, disnake.Member) and self.contrib_role and user.get_role(self.contrib_role.id) is not None:
             return True
         return False
 
